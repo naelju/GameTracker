@@ -1,16 +1,8 @@
 import React from 'react'
 import { Save, X } from 'lucide-react'
-import {
-  FormOverlay,
-  FormContainer,
-  FormGrid,
-  FormGroup,
-  FormActions,
-  SaveButton,
-  CancelButton
-} from './GameTracker.styles'
+import { styled } from 'styled-components'
 
-const GameForm = ({ 
+export const GameForm = ({ 
   isAdding, 
   editingId, 
   formData, 
@@ -21,12 +13,12 @@ const GameForm = ({
   if (!isAdding && !editingId) return null
 
   return (
-    <FormOverlay>
-      <FormContainer>
+    <S.FormOverlay>
+      <S.FormContainer>
         <h3>{editingId ? 'Edit Game' : 'Add New Game'}</h3>
         
-        <FormGrid>
-          <FormGroup>
+        <S.FormGrid>
+          <S.FormGroup>
             <label>Game Name *</label>
             <input
               type="text"
@@ -36,9 +28,9 @@ const GameForm = ({
               placeholder="Enter game name"
               required
             />
-          </FormGroup>
+          </S.FormGroup>
 
-          <FormGroup>
+          <S.FormGroup>
             <label>Main Story</label>
             <select
               name="mainStory"
@@ -59,29 +51,29 @@ const GameForm = ({
                 style={{ marginTop: '8px' }}
               />
             )}
-          </FormGroup>
+          </S.FormGroup>
 
-          <FormGroup>
+          <S.FormGroup>
             <label>Date Started</label>
             <input
               type="date"
-              name="dateStarted"
-              value={formData.dateStarted}
+              name="startDate"
+              value={formData.startDate}
               onChange={onInputChange}
             />
-          </FormGroup>
+          </S.FormGroup>
 
-          <FormGroup>
+          <S.FormGroup>
             <label>Date Finished</label>
             <input
               type="date"
-              name="dateFinished"
-              value={formData.dateFinished}
+              name="finishDate"
+              value={formData.finishDate}
               onChange={onInputChange}
             />
-          </FormGroup>
+          </S.FormGroup>
 
-          <FormGroup>
+          <S.FormGroup>
             <label>Side Quests Finished</label>
             <select
               name="sideQuestsFinished"
@@ -102,9 +94,9 @@ const GameForm = ({
                 style={{ marginTop: '8px' }}
               />
             )}
-          </FormGroup>
+          </S.FormGroup>
 
-          <FormGroup>
+          <S.FormGroup>
             <label>All Free Achievements</label>
             <select
               name="allFreeAchievements"
@@ -125,9 +117,9 @@ const GameForm = ({
                 style={{ marginTop: '8px' }}
               />
             )}
-          </FormGroup>
+          </S.FormGroup>
 
-          <FormGroup>
+          <S.FormGroup>
             <label>All Achievements</label>
             <select
               name="allAchievements"
@@ -148,22 +140,161 @@ const GameForm = ({
                 style={{ marginTop: '8px' }}
               />
             )}
-          </FormGroup>
-        </FormGrid>
+          </S.FormGroup>
+        </S.FormGrid>
 
-        <FormActions>
-          <SaveButton onClick={onSave}>
+        <S.FormActions>
+          <S.SaveButton onClick={onSave}>
             <Save size={16} />
             {editingId ? 'Update' : 'Add'} Game
-          </SaveButton>
-          <CancelButton onClick={onCancel}>
+          </S.SaveButton>
+          <S.CancelButton onClick={onCancel}>
             <X size={16} />
             Cancel
-          </CancelButton>
-        </FormActions>
-      </FormContainer>
-    </FormOverlay>
+          </S.CancelButton>
+        </S.FormActions>
+      </S.FormContainer>
+    </S.FormOverlay>
   )
 }
 
-export default GameForm
+namespace S {
+  export const FormOverlay = styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+  `
+
+  export const FormContainer = styled.div`
+    background: white;
+    border-radius: 12px;
+    padding: 32px;
+    max-width: 800px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+
+    h3 {
+      margin-bottom: 24px;
+      color: #1f2937;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+  `
+
+  export const FormGrid = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 24px;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+  `
+
+  export const FormGroup = styled.div`
+    &.full-width {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 500;
+      color: #374151;
+      font-size: 14px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 14px;
+      transition: border-color 0.2s ease;
+
+      &:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      }
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+  `
+
+  export const FormActions = styled.div`
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+
+    @media (max-width: 480px) {
+      flex-direction: column;
+    }
+  `
+
+  export const SaveButton = styled.button`
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 14px;
+    border: none;
+    background: #10b981;
+    color: white;
+
+    &:hover {
+      background: #059669;
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 480px) {
+      width: 100%;
+      justify-content: center;
+    }
+  `
+
+  export const CancelButton = styled.button`
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 14px;
+    border: none;
+    background: #6b7280;
+    color: white;
+
+    &:hover {
+      background: #4b5563;
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 480px) {
+      width: 100%;
+      justify-content: center;
+    }
+  `
+}

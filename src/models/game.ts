@@ -1,0 +1,30 @@
+export type Game = {
+  id: string,
+  name: string,
+  mainStory?: boolean,
+  mainStoryComment?: string,
+  sideQuests?: boolean,
+  sideQuestsComment?: string,
+  freeAchievements?: boolean,
+  freeAchievementsComment?: string,
+  allAchievements?: boolean,
+  allAchievementsComment?: string,
+  hundredPercent: boolean,
+  startDate?: string | null,
+  finishDate?: string | null,
+}
+
+export type GameData = {
+  name: string,
+  mainStory?: boolean,
+  mainStoryComment?: string,
+  sideQuests?: boolean,
+  sideQuestsComment?: string,
+  freeAchievements?: boolean,
+  freeAchievementsComment?: string,
+  allAchievements?: boolean,
+  allAchievementsComment?: string,
+  hundredPercent: boolean,
+  startDate?: string | null,
+  finishDate?: string | null,
+}

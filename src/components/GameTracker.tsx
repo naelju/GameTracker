@@ -1,47 +1,60 @@
 import React, { useState } from 'react'
 import { useGames } from '../hooks/useGames'
 import { computeGame100Percent, getStatusIcon, getStatusColor } from '../utils/gameUtils'
-import { GameTrackerContainer } from './GameTracker.styles'
-import ViewTabs from './ViewTabs'
-import Controls from './Controls'
-import GameForm from './GameForm'
-import GameTable from './GameTable'
-import ImageView from './ImageView'
+import { ViewTabs } from './ViewTabs'
+import { Controls } from './Controls'
+import { GameForm } from './GameForm'
+import { GameTable } from './GameTable'
+import { ImageView } from './ImageView'
+import styled from 'styled-components'
+import { Game, GameData } from '../models/game'
 
-const GameTracker = () => {
+export type FormData = {
+  name: string,
+  mainStory?: boolean,
+  sideQuests?: boolean,
+  freeAchievements?: boolean,
+  allAchievements?: boolean,
+  startDate?: string,
+  finishDate?: string,
+  mainStoryComment?: string,
+  sideQuestsComment?: string,
+  freeAchievementsComment?: string,
+  allAchievementsComment?: string
+}
+
+export const GameTracker = () => {
   const [activeView, setActiveView] = useState('table')
   const [isAdding, setIsAdding] = useState(false)
-  const [editingId, setEditingId] = useState(null)
-  const [formData, setFormData] = useState({
+  const [editingId, setEditingId] = useState<string | null>(null)
+  const [formData, setFormData] = useState<FormData>({
     name: '',
-    dateStarted: '',
-    dateFinished: '',
-    mainStory: 'no',
-    sideQuestsFinished: 'no',
-    allFreeAchievements: 'no',
-    allAchievements: 'no',
-    game100Percent: 'no',
+    startDate: '',
+    finishDate: '',
+    mainStory: false,
+    sideQuests: false,
+    freeAchievements: false,
+    allAchievements: false,
     mainStoryComment: '',
     sideQuestsComment: '',
-    allFreeAchievementsComment: '',
-    allAchievementsComment: '',
-    game100PercentComment: ''
+    freeAchievementsComment: '',
+    allAchievementsComment: ''
   })
 
-  const { games, isLoading, addGame, updateGame, deleteGame, setGames } = useGames()
+  const { games, addGame, updateGame, deleteGame } = useGames()
 
   const resetForm = () => {
     setFormData({
       name: '',
-      dateStarted: '',
-      dateFinished: '',
-      mainStory: 'no',
-      sideQuestsFinished: 'no',
-      allFreeAchievements: 'no',
-      allAchievements: 'no',
+      startDate: '',
+      finishDate: '',
+      mainStory: false,
+      sideQuests: false,
+      freeAchievements: false,
+      allAchievements: false,
       mainStoryComment: '',
       sideQuestsComment: '',
-      allFreeAchievementsComment: '',
+      freeAchievementsComment: '',
       allAchievementsComment: ''
     })
   }
@@ -57,22 +70,22 @@ const GameTracker = () => {
   const handleAdd = async () => {
     if (!formData.name.trim()) return
 
-    const game100Percent = computeGame100Percent(
+    const hundredPercent = computeGame100Percent(
       formData.mainStory,
-      formData.sideQuestsFinished,
-      formData.allFreeAchievements,
+      formData.sideQuests,
+      formData.freeAchievements,
       formData.allAchievements
     )
 
     const newGameData = {
       ...formData,
-      dateStarted: formData.dateStarted || null,
-      dateFinished: formData.dateFinished || null,
-      game100Percent
+      startDate: formData.startDate || null,
+      finishDate: formData.finishDate || null,
+      hundredPercent
     }
 
     try {
-      await addGame(newGameData)
+      await addGame(newGameData as Game)
       resetForm()
       setIsAdding(false)
     } catch (error) {
@@ -84,15 +97,15 @@ const GameTracker = () => {
     setEditingId(game.id)
     setFormData({
       name: game.name,
-      dateStarted: game.dateStarted || '',
-      dateFinished: game.dateFinished || '',
+      startDate: game.startDate || '',
+      finishDate: game.finishDate || '',
       mainStory: game.mainStory || 'no',
-      sideQuestsFinished: game.sideQuestsFinished,
-      allFreeAchievements: game.allFreeAchievements,
+      sideQuests: game.sideQuests,
+      freeAchievements: game.freeAchievements,
       allAchievements: game.allAchievements,
       mainStoryComment: game.mainStoryComment || '',
       sideQuestsComment: game.sideQuestsComment || '',
-      allFreeAchievementsComment: game.allFreeAchievementsComment || '',
+      freeAchievementsComment: game.freeAchievementsComment || '',
       allAchievementsComment: game.allAchievementsComment || ''
     })
   }
@@ -100,21 +113,27 @@ const GameTracker = () => {
   const handleUpdate = async () => {
     if (!formData.name.trim()) return
 
-    const game100Percent = computeGame100Percent(
+    const hundredPercent = computeGame100Percent(
       formData.mainStory,
-      formData.sideQuestsFinished,
-      formData.allFreeAchievements,
+      formData.sideQuests,
+      formData.freeAchievements,
       formData.allAchievements
     )
 
-    const updateData = {
+    const updateData: GameData = {
       ...formData,
-      dateStarted: formData.dateStarted || null,
-      dateFinished: formData.dateFinished || null,
-      game100Percent
+      hundredPercent
+    }
+
+    if (updateData.startDate === '') {
+      updateData.startDate = null
+    }
+    if (updateData.finishDate === '') {
+      updateData.finishDate = null
     }
 
     try {
+      if (!editingId) return
       await updateGame(editingId, updateData)
       resetForm()
       setEditingId(null)
@@ -123,7 +142,7 @@ const GameTracker = () => {
     }
   }
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id: string) => {
     if (window.confirm('Are you sure you want to delete this game?')) {
       try {
         await deleteGame(id)
@@ -139,31 +158,22 @@ const GameTracker = () => {
     setEditingId(null)
   }
 
-  const handleStatusToggle = async (gameId, field) => {
+  const handleStatusToggle = async (gameId: string, field: string) => {
     const game = games.find(g => g.id === gameId)
     if (!game) return
 
     const currentStatus = game[field]
-    let newStatus
-    if (currentStatus === 'yes') {
-      newStatus = 'no'
-    } else if (currentStatus === 'no') {
-      newStatus = 'yes'
-    } else {
-      // Don't toggle undefined status
-      return
-    }
+    let newStatus = !currentStatus
     
     const updatedGame = {
       ...game,
       [field]: newStatus
     }
-    
-    // Recompute 100% status
-    updatedGame.game100Percent = computeGame100Percent(
+
+    updatedGame.hundredPercent = computeGame100Percent(
       updatedGame.mainStory,
-      updatedGame.sideQuestsFinished,
-      updatedGame.allFreeAchievements,
+      updatedGame.sideQuests,
+      updatedGame.freeAchievements,
       updatedGame.allAchievements
     )
 
@@ -176,19 +186,14 @@ const GameTracker = () => {
 
 
   return (
-    <GameTrackerContainer>
+    <S.GameTrackerContainer>
       <ViewTabs 
         activeView={activeView} 
         onViewChange={setActiveView} 
       />
-
       <Controls 
         onAddGame={() => setIsAdding(true)}
-        isAdding={isAdding}
-        editingId={editingId}
-        setGames={setGames}
       />
-
       <GameForm
         isAdding={isAdding}
         editingId={editingId}
@@ -197,24 +202,36 @@ const GameTracker = () => {
         onSave={editingId ? handleUpdate : handleAdd}
         onCancel={handleCancel}
       />
-
       {activeView === 'table' && (
         <GameTable
           games={games}
-          isLoading={isLoading}
           onEdit={handleEdit}
           onDelete={handleDelete}
           onStatusToggle={handleStatusToggle}
           getStatusIcon={getStatusIcon}
           getStatusColor={getStatusColor}
-          isAdding={isAdding}
-          editingId={editingId}
         />
       )}
 
       {activeView === 'images' && <ImageView />}
-    </GameTrackerContainer>
+    </S.GameTrackerContainer>
   )
 }
 
-export default GameTracker
+namespace S {
+  export const GameTrackerContainer = styled.div`
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    overflow: hidden;
+    min-height: 600px;
+  `;
+
+  export const ViewTabs = styled.div`
+    display: flex;
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 0 24px;
+    `;
+}
+

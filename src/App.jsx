@@ -1,5 +1,5 @@
 import React from 'react'
-import GameTracker from './components/GameTracker'
+import { GameTracker } from './components/GameTracker'
 import './App.css'
 
 function App() {

@@ -1,23 +1,21 @@
 export const computeGame100Percent = (mainStory, sideQuests, freeAchievements, allAchievements) => {
-  // 100% is yes only if all other fields are yes or undefined (no "no" values)
   const fields = [mainStory, sideQuests, freeAchievements, allAchievements]
-  return fields.every(field => field === 'yes' || field === 'undefined') ? 'yes' : 'no'
+  return fields.every(field => field === true || field === null) ? true : false
 }
 
 export const getStatusIcon = (status) => {
   switch (status) {
-    case 'yes': return '✅'
-    case 'no': return '❌'
-    case 'undefined': return '❓'
+    case true: return '✅'
+    case false: return '❌'
     default: return '❓'
   }
 }
 
 export const getStatusColor = (status) => {
   switch (status) {
-    case 'yes': return '#10b981'
-    case 'no': return '#ef4444'
-    case 'undefined': return '#f59e0b'
+    case true: return '#10b981'
+    case false: return '#ef4444'
+    case null: return '#f59e0b'
     default: return '#6b7280'
   }
 }
