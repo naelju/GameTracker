@@ -39,6 +39,29 @@ const GameForm = ({
           </FormGroup>
 
           <FormGroup>
+            <label>Main Story</label>
+            <select
+              name="mainStory"
+              value={formData.mainStory}
+              onChange={onInputChange}
+            >
+              <option value="no">No</option>
+              <option value="yes">Yes</option>
+              <option value="undefined">Undefined</option>
+            </select>
+            {formData.mainStory === 'undefined' && (
+              <input
+                type="text"
+                name="mainStoryComment"
+                value={formData.mainStoryComment}
+                onChange={onInputChange}
+                placeholder="Add comment for undefined status..."
+                style={{ marginTop: '8px' }}
+              />
+            )}
+          </FormGroup>
+
+          <FormGroup>
             <label>Date Started</label>
             <input
               type="date"

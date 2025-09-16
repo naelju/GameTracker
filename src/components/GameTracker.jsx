@@ -16,10 +16,12 @@ const GameTracker = () => {
     name: '',
     dateStarted: '',
     dateFinished: '',
+    mainStory: 'no',
     sideQuestsFinished: 'no',
     allFreeAchievements: 'no',
     allAchievements: 'no',
     game100Percent: 'no',
+    mainStoryComment: '',
     sideQuestsComment: '',
     allFreeAchievementsComment: '',
     allAchievementsComment: '',
@@ -33,9 +35,11 @@ const GameTracker = () => {
       name: '',
       dateStarted: '',
       dateFinished: '',
+      mainStory: 'no',
       sideQuestsFinished: 'no',
       allFreeAchievements: 'no',
       allAchievements: 'no',
+      mainStoryComment: '',
       sideQuestsComment: '',
       allFreeAchievementsComment: '',
       allAchievementsComment: ''
@@ -54,6 +58,7 @@ const GameTracker = () => {
     if (!formData.name.trim()) return
 
     const game100Percent = computeGame100Percent(
+      formData.mainStory,
       formData.sideQuestsFinished,
       formData.allFreeAchievements,
       formData.allAchievements
@@ -81,9 +86,11 @@ const GameTracker = () => {
       name: game.name,
       dateStarted: game.dateStarted || '',
       dateFinished: game.dateFinished || '',
+      mainStory: game.mainStory || 'no',
       sideQuestsFinished: game.sideQuestsFinished,
       allFreeAchievements: game.allFreeAchievements,
       allAchievements: game.allAchievements,
+      mainStoryComment: game.mainStoryComment || '',
       sideQuestsComment: game.sideQuestsComment || '',
       allFreeAchievementsComment: game.allFreeAchievementsComment || '',
       allAchievementsComment: game.allAchievementsComment || ''
@@ -94,6 +101,7 @@ const GameTracker = () => {
     if (!formData.name.trim()) return
 
     const game100Percent = computeGame100Percent(
+      formData.mainStory,
       formData.sideQuestsFinished,
       formData.allFreeAchievements,
       formData.allAchievements
@@ -153,6 +161,7 @@ const GameTracker = () => {
     
     // Recompute 100% status
     updatedGame.game100Percent = computeGame100Percent(
+      updatedGame.mainStory,
       updatedGame.sideQuestsFinished,
       updatedGame.allFreeAchievements,
       updatedGame.allAchievements

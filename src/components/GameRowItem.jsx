@@ -25,6 +25,16 @@ const GameRowItem = ({
       <TableCell className="game-name">{game.name}</TableCell>
       <TableCell>
         <StatusBadge 
+          className={game.mainStory !== 'undefined' ? 'clickable' : ''}
+          style={{ backgroundColor: getStatusColor(game.mainStory) }}
+          title={game.mainStory !== 'undefined' ? `Click to toggle: ${game.mainStory}` : (game.mainStoryComment ? game.mainStoryComment : 'Undefined status')}
+          onClick={() => game.mainStory !== 'undefined' && onStatusToggle(game.id, 'mainStory')}
+        >
+          {getStatusIcon(game.mainStory)}
+        </StatusBadge>
+      </TableCell>
+      <TableCell>
+        <StatusBadge 
           className={game.sideQuestsFinished !== 'undefined' ? 'clickable' : ''}
           style={{ backgroundColor: getStatusColor(game.sideQuestsFinished) }}
           title={game.sideQuestsFinished !== 'undefined' ? `Click to toggle: ${game.sideQuestsFinished}` : (game.sideQuestsComment ? game.sideQuestsComment : 'Undefined status')}

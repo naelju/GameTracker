@@ -25,6 +25,7 @@ const GameTable = ({
         <thead>
           <tr>
             <TableHeader className="game-name-header">Game Name</TableHeader>
+            <TableHeader>Main Story</TableHeader>
             <TableHeader>Side Quests</TableHeader>
             <TableHeader>Free Achievements</TableHeader>
             <TableHeader>All Achievements</TableHeader>
@@ -37,13 +38,13 @@ const GameTable = ({
         <tbody>
           {isLoading ? (
             <tr>
-              <EmptyState colSpan="8">
+              <EmptyState colSpan="9">
                 Loading games...
               </EmptyState>
             </tr>
           ) : games.length === 0 ? (
             <tr>
-              <EmptyState colSpan="8">
+              <EmptyState colSpan="9">
                 No games added yet. Click "Add Game" to get started!
               </EmptyState>
             </tr>

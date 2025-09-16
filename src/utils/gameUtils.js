@@ -1,6 +1,6 @@
-export const computeGame100Percent = (sideQuests, freeAchievements, allAchievements) => {
+export const computeGame100Percent = (mainStory, sideQuests, freeAchievements, allAchievements) => {
   // 100% is yes only if all other fields are yes or undefined (no "no" values)
-  const fields = [sideQuests, freeAchievements, allAchievements]
+  const fields = [mainStory, sideQuests, freeAchievements, allAchievements]
   return fields.every(field => field === 'yes' || field === 'undefined') ? 'yes' : 'no'
 }
 
