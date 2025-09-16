@@ -1,41 +1,42 @@
 import React from 'react';
 import { styled } from "styled-components";
+import { ObjectiveStatusEnum } from '../models/game';
 
 export type StatusBadgeProps = {
     gameId: string;
     propertyName: string;
-    propertyStatus?: boolean;
+    propertyStatus: ObjectiveStatusEnum;
     propertyComment?: string;
     onStatusToggle: (gameId: string, propertyName: string) => void;
 }
 
 export const StatusBadge = ({ gameId, propertyName, propertyStatus, propertyComment, onStatusToggle }: StatusBadgeProps ) => {
-  const getStatusColor = (status?: boolean) => {
+  const getStatusColor = (status: ObjectiveStatusEnum) => {
       switch (status) {
-          case true: return '#10b981';
-          case false: return '#ef4444';
-          case null: return '#f59e0b';
+          case ObjectiveStatusEnum.YES: return '#10b981';
+          case ObjectiveStatusEnum.NO: return '#ef4444';
+          case ObjectiveStatusEnum.UNDEFINED: return '#f59e0b';
           default: return '#6b7280';
       }
   }
 
-  const getStatusIcon = (status?: boolean) => {
+  const getStatusIcon = (status: ObjectiveStatusEnum) => {
     switch (status) {
-      case true: return '✅';
-      case false: return '❌';
+      case ObjectiveStatusEnum.YES: return '✅';
+      case ObjectiveStatusEnum.NO: return '❌';
       default: return '❓';
     }
   }
 
   return (
     <S.StatusBadge 
-    className={propertyStatus !== null ? 'clickable' : ''}
+    className={propertyStatus !== ObjectiveStatusEnum.UNDEFINED ? 'clickable' : ''}
     style={{ backgroundColor: getStatusColor(propertyStatus) }}
-    title={propertyStatus === null ? (propertyComment ? propertyComment : 'No comment') : undefined}
-    onClick={() => propertyStatus !== null && onStatusToggle(gameId, propertyName)}
+    title={propertyStatus === ObjectiveStatusEnum.UNDEFINED ? (propertyComment ? propertyComment : 'No comment') : undefined}
+    onClick={() => propertyStatus !== ObjectiveStatusEnum.UNDEFINED && onStatusToggle(gameId, propertyName)}
   >
     {/* TODO: replace by an image or something better instead of text */}
-    {getStatusIcon(propertyStatus)}
+    {getStatusIcon(propertyStatus as ObjectiveStatusEnum)}
   </S.StatusBadge>
   )
 }

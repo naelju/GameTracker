@@ -1,7 +1,16 @@
 import React from 'react'
 import { Save, X } from 'lucide-react'
 import { styled } from 'styled-components'
+import { FormData } from '../models/game'
 
+export type GameFormProps = {
+  isAdding: boolean,
+  editingId: string | null,
+  formData: FormData,
+  onInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void,
+  onSave: () => void,
+  onCancel: () => void,
+}
 export const GameForm = ({ 
   isAdding, 
   editingId, 
@@ -9,7 +18,7 @@ export const GameForm = ({
   onInputChange, 
   onSave, 
   onCancel 
-}) => {
+}: GameFormProps) => {
   if (!isAdding && !editingId) return null
 
   return (
@@ -76,15 +85,15 @@ export const GameForm = ({
           <S.FormGroup>
             <label>Side Quests Finished</label>
             <select
-              name="sideQuestsFinished"
-              value={formData.sideQuestsFinished}
+              name="sideQuests"
+              value={formData.sideQuests}
               onChange={onInputChange}
             >
               <option value="no">No</option>
               <option value="yes">Yes</option>
               <option value="undefined">Undefined</option>
             </select>
-            {formData.sideQuestsFinished === 'undefined' && (
+            {formData.sideQuests === 'undefined' && (
               <input
                 type="text"
                 name="sideQuestsComment"
@@ -97,21 +106,21 @@ export const GameForm = ({
           </S.FormGroup>
 
           <S.FormGroup>
-            <label>All Free Achievements</label>
+            <label>Free Achievements</label>
             <select
-              name="allFreeAchievements"
-              value={formData.allFreeAchievements}
+              name="freeAchievements"
+              value={formData.freeAchievements}
               onChange={onInputChange}
             >
               <option value="no">No</option>
               <option value="yes">Yes</option>
               <option value="undefined">Undefined</option>
             </select>
-            {formData.allFreeAchievements === 'undefined' && (
+            {formData.freeAchievements === 'undefined' && (
               <input
                 type="text"
-                name="allFreeAchievementsComment"
-                value={formData.allFreeAchievementsComment}
+                name="freeAchievementsComment"
+                value={formData.freeAchievementsComment}
                 onChange={onInputChange}
                 placeholder="Add comment for undefined status..."
                 style={{ marginTop: '8px' }}

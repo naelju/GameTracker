@@ -8,17 +8,13 @@ export type GameTableProps = {
   onEdit: (game: Game) => void,
   onDelete: (gameId: string) => void,
   onStatusToggle: (gameId: string, field: string) => void,
-  getStatusIcon: (status: boolean) => string,
-  getStatusColor: (status: boolean) => string,
 }
 
 export const GameTable = ({ 
   games, 
   onEdit, 
   onDelete, 
-  onStatusToggle, 
-  getStatusIcon, 
-  getStatusColor,
+  onStatusToggle,
 }: GameTableProps) => {
   return (
     <S.TableContainer>
@@ -51,8 +47,6 @@ export const GameTable = ({
                 onEdit={onEdit}
                 onDelete={onDelete}
                 onStatusToggle={onStatusToggle}
-                getStatusIcon={getStatusIcon}
-                getStatusColor={getStatusColor}
               />
             ))
           )}

@@ -1,27 +1,12 @@
 import React, { useState } from 'react'
 import { useGames } from '../hooks/useGames'
-import { computeGame100Percent, getStatusIcon, getStatusColor } from '../utils/gameUtils'
 import { ViewTabs } from './ViewTabs'
 import { Controls } from './Controls'
 import { GameForm } from './GameForm'
 import { GameTable } from './GameTable'
 import { ImageView } from './ImageView'
 import styled from 'styled-components'
-import { Game, GameData } from '../models/game'
-
-export type FormData = {
-  name: string,
-  mainStory?: boolean,
-  sideQuests?: boolean,
-  freeAchievements?: boolean,
-  allAchievements?: boolean,
-  startDate?: string | null,
-  finishDate?: string | null,
-  mainStoryComment?: string,
-  sideQuestsComment?: string,
-  freeAchievementsComment?: string,
-  allAchievementsComment?: string
-}
+import { type Game, type GameData, ObjectiveStatusEnum, type FormData } from '../models/game'
 
 export const GameTracker = () => {
   const [activeView, setActiveView] = useState('table')
@@ -31,10 +16,10 @@ export const GameTracker = () => {
     name: '',
     startDate: null,
     finishDate: null,
-    mainStory: false,
-    sideQuests: false,
-    freeAchievements: false,
-    allAchievements: false,
+    mainStory: ObjectiveStatusEnum.NO,
+    sideQuests: ObjectiveStatusEnum.NO,
+    freeAchievements: ObjectiveStatusEnum.NO,
+    allAchievements: ObjectiveStatusEnum.NO,
     mainStoryComment: '',
     sideQuestsComment: '',
     freeAchievementsComment: '',
@@ -48,15 +33,20 @@ export const GameTracker = () => {
       name: '',
       startDate: null,
       finishDate: null,
-      mainStory: false,
-      sideQuests: false,
-      freeAchievements: false,
-      allAchievements: false,
+      mainStory: ObjectiveStatusEnum.NO,
+      sideQuests: ObjectiveStatusEnum.NO,
+      freeAchievements: ObjectiveStatusEnum.NO,
+      allAchievements: ObjectiveStatusEnum.NO,
       mainStoryComment: '',
       sideQuestsComment: '',
       freeAchievementsComment: '',
       allAchievementsComment: ''
     })
+  }
+
+  const computeGame100Percent = (mainStory: ObjectiveStatusEnum, sideQuests: ObjectiveStatusEnum, freeAchievements: ObjectiveStatusEnum, allAchievements: ObjectiveStatusEnum) => {
+    const fields = [mainStory, sideQuests, freeAchievements, allAchievements]
+    return fields.every(field => field === ObjectiveStatusEnum.YES || field === ObjectiveStatusEnum.UNDEFINED) ? true : false
   }
 
   const handleInputChange = (e) => {
@@ -156,7 +146,7 @@ export const GameTracker = () => {
     if (!game) return
 
     const currentStatus = game[field]
-    let newStatus = !currentStatus
+    const newStatus = currentStatus === ObjectiveStatusEnum.YES ? ObjectiveStatusEnum.NO : ObjectiveStatusEnum.YES;
     
     const updatedGame = {
       ...game,
@@ -201,8 +191,6 @@ export const GameTracker = () => {
           onEdit={handleEdit}
           onDelete={handleDelete}
           onStatusToggle={handleStatusToggle}
-          getStatusIcon={getStatusIcon}
-          getStatusColor={getStatusColor}
         />
       )}
 

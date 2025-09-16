@@ -10,8 +10,6 @@ export type GameRowItemProps = {
   onEdit: (game: Game) => void,
   onDelete: (gameId: string) => void,
   onStatusToggle: (gameId: string, field: string) => void,
-  getStatusIcon: (status: boolean) => string,
-  getStatusColor: (status: boolean) => string,
 }
 
 export const GameRowItem = ({ 
@@ -19,9 +17,24 @@ export const GameRowItem = ({
   onEdit, 
   onDelete, 
   onStatusToggle, 
-  getStatusIcon, 
-  getStatusColor,
 }: GameRowItemProps) => {
+  const getStatusIcon = (status: boolean) => {
+    switch (status) {
+      case true: return '✅'
+      case false: return '❌'
+      default: return '❓'
+    }
+  }
+  
+  const getStatusColor = (status: boolean) => {
+    switch (status) {
+      case true: return '#10b981'
+      case false: return '#ef4444'
+      default: return '#6b7280'
+    }
+  }
+
+  
   return (
     <S.TableRow className={game.hundredPercent === true ? 'completed-100' : ''}>
       <S.TableCell className="game-name">{game.name}</S.TableCell>
