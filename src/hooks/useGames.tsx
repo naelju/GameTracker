@@ -8,7 +8,6 @@ export const useGames = () => {
   const loadGames = async () => {
     try {
       const { data, error } = await supabase.from('game').select('*')
-      console.log(data)
       if (error) throw error
       setGames(data)
     } catch (error) {

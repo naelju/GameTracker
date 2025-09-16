@@ -15,8 +15,8 @@ export type FormData = {
   sideQuests?: boolean,
   freeAchievements?: boolean,
   allAchievements?: boolean,
-  startDate?: string,
-  finishDate?: string,
+  startDate?: string | null,
+  finishDate?: string | null,
   mainStoryComment?: string,
   sideQuestsComment?: string,
   freeAchievementsComment?: string,
@@ -29,8 +29,8 @@ export const GameTracker = () => {
   const [editingId, setEditingId] = useState<string | null>(null)
   const [formData, setFormData] = useState<FormData>({
     name: '',
-    startDate: '',
-    finishDate: '',
+    startDate: null,
+    finishDate: null,
     mainStory: false,
     sideQuests: false,
     freeAchievements: false,
@@ -46,8 +46,8 @@ export const GameTracker = () => {
   const resetForm = () => {
     setFormData({
       name: '',
-      startDate: '',
-      finishDate: '',
+      startDate: null,
+      finishDate: null,
       mainStory: false,
       sideQuests: false,
       freeAchievements: false,
@@ -79,9 +79,14 @@ export const GameTracker = () => {
 
     const newGameData = {
       ...formData,
-      startDate: formData.startDate || null,
-      finishDate: formData.finishDate || null,
       hundredPercent
+    }
+
+    if (newGameData.startDate === '') {
+      newGameData.startDate = null
+    }
+    if (newGameData.finishDate === '') {
+      newGameData.finishDate = null
     }
 
     try {
@@ -93,21 +98,9 @@ export const GameTracker = () => {
     }
   }
 
-  const handleEdit = (game) => {
+  const handleEdit = (game: Game) => {
     setEditingId(game.id)
-    setFormData({
-      name: game.name,
-      startDate: game.startDate || '',
-      finishDate: game.finishDate || '',
-      mainStory: game.mainStory || 'no',
-      sideQuests: game.sideQuests,
-      freeAchievements: game.freeAchievements,
-      allAchievements: game.allAchievements,
-      mainStoryComment: game.mainStoryComment || '',
-      sideQuestsComment: game.sideQuestsComment || '',
-      freeAchievementsComment: game.freeAchievementsComment || '',
-      allAchievementsComment: game.allAchievementsComment || ''
-    })
+    setFormData({...game})
   }
 
   const handleUpdate = async () => {

@@ -22,8 +22,6 @@ export const GameRowItem = ({
   getStatusIcon, 
   getStatusColor,
 }: GameRowItemProps) => {
-
-  console.log(game.mainStory);
   return (
     <S.TableRow className={game.hundredPercent === true ? 'completed-100' : ''}>
       <S.TableCell className="game-name">{game.name}</S.TableCell>

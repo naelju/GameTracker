@@ -58,7 +58,7 @@ export const GameForm = ({
             <input
               type="date"
               name="startDate"
-              value={formData.startDate}
+              value={formData.startDate ?? ''}
               onChange={onInputChange}
             />
           </S.FormGroup>
@@ -68,7 +68,7 @@ export const GameForm = ({
             <input
               type="date"
               name="finishDate"
-              value={formData.finishDate}
+              value={formData.finishDate ?? ''}
               onChange={onInputChange}
             />
           </S.FormGroup>
