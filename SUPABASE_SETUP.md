@@ -25,9 +25,6 @@ Create `src/lib/supabase.js`:
 ```javascript
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = 'https://tvmclhztlckjumzjhhnd.supabase.co'
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR2bWNsaHp0bGNranVtempoaG5kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgwMDQ1NTMsImV4cCI6MjA3MzU4MDU1M30.F5Ia277v0uGJ3mfYAs56ue-QBTvt8kPsQk7HuuYz8oM'
-
 export const supabase = createClient(supabaseUrl, supabaseKey)
 ```
 
