@@ -9,6 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "import-games": "node import-games.js",
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
