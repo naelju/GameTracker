@@ -1,0 +1,6 @@
+name,mainStory,sideQuests,freeAchievements,allAchievements,startDate,finishDate,mainStoryComment,sideQuestsComment,freeAchievementsComment,allAchievementsComment
+"The Legend of Zelda: Breath of the Wild",yes,yes,no,no,2023-01-15,2023-03-20,,,,
+"Super Mario Odyssey",yes,no,no,no,2023-02-01,2023-02-15,,,,
+"Cyberpunk 2077",yes,undefined,undefined,undefined,2023-04-01,,,No side quests available,Some achievements require DLC,Some achievements require DLC
+"Elden Ring",yes,yes,yes,yes,2023-05-01,2023-07-15,,,,
+"God of War",yes,no,no,no,2023-06-01,2023-06-20,,,,
