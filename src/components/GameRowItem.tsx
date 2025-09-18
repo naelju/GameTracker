@@ -126,7 +126,7 @@ namespace S {
 
     &.game-name {
       font-weight: 600;
-      color: #f1f5f9;
+      color: #cecece;
       min-width: 150px;
       text-align: left !important;
       vertical-align: middle;
@@ -150,26 +150,27 @@ namespace S {
   `;
 
   export const TableRow = styled.tr`
-    &:hover {
+  background-color: #334155;
+    /* &:hover {
       background: #334155;
-    }
+    } */
 
     &.completed-100 {
-      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+      background: linear-gradient(135deg, #f59e0b 0%, #334155 10%, #334155 90%, #f59e0b 100%);
       box-shadow: 0 2px 8px rgba(251, 191, 36, 0.3);
 
-      &:hover {
+      /* &:hover {
         background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
         box-shadow: 0 4px 12px rgba(251, 191, 36, 0.4);
-      }
+      } */
 
       td {
-        border-bottom-color: rgba(251, 191, 36, 0.3);
+        /* border-bottom-color: rgba(251, 191, 36, 0.3); */
       }
 
-      .game-name {
-        color: #92400e;
-      }
+      /* .game-name {
+        color: #ffa600;
+      } */
 
       .status-badge {
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
