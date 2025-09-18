@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="App">
       <header className="app-header">
-        <h1>🎮 Game Tracker 🎮</h1>
+        <h1>🎮 Game Tracker 🎮🎮🎮🎮🎮</h1>
         <p>Track your gaming progress and achievements</p>
       </header>
       <main>
