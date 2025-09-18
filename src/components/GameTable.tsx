@@ -72,12 +72,12 @@ namespace S {
   `;
 
   export const TableHeader = styled.th`
-    background: #f3f4f6;
+    background: #334155;
     padding: 10px 8px;
     text-align: center;
     font-weight: 600;
-    color: #374151;
-    border-bottom: 2px solid #e5e7eb;
+    color: #e2e8f0;
+    border-bottom: 2px solid #475569;
     white-space: nowrap;
 
     &.game-name-header {
@@ -91,9 +91,9 @@ namespace S {
 
   export const EmptyState = styled.td`
     text-align: center;
-    color: #6b7280;
+    color: #94a3b8;
     font-style: italic;
     padding: 48px 16px;
-    background: #f9fafb;
+    background: #334155;
   `;
 }

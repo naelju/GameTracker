@@ -183,18 +183,19 @@ namespace S {
   `
 
   export const FormContainer = styled.div`
-    background: white;
+    background: #1e293b;
     border-radius: 12px;
     padding: 32px;
     max-width: 800px;
     width: 100%;
     max-height: 90vh;
     overflow-y: auto;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+    border: 1px solid #334155;
 
     h3 {
       margin-bottom: 24px;
-      color: #1f2937;
+      color: #f1f5f9;
       font-size: 1.5rem;
       font-weight: 600;
     }
@@ -220,7 +221,7 @@ namespace S {
       display: block;
       margin-bottom: 6px;
       font-weight: 500;
-      color: #374151;
+      color: #e2e8f0;
       font-size: 14px;
     }
 
@@ -229,15 +230,17 @@ namespace S {
     textarea {
       width: 100%;
       padding: 10px 12px;
-      border: 1px solid #d1d5db;
+      border: 1px solid #475569;
       border-radius: 6px;
       font-size: 14px;
+      background: #334155;
+      color: #e2e8f0;
       transition: border-color 0.2s ease;
 
       &:focus {
         outline: none;
-        border-color: #667eea;
-        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        border-color: #818cf8;
+        box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.1);
       }
     }
 
@@ -274,6 +277,7 @@ namespace S {
     &:hover {
       background: #059669;
       transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
     }
 
     @media (max-width: 480px) {
@@ -299,6 +303,7 @@ namespace S {
     &:hover {
       background: #4b5563;
       transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(107, 114, 128, 0.3);
     }
 
     @media (max-width: 480px) {

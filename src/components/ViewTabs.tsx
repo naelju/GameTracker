@@ -23,8 +23,8 @@ export const ViewTabs = ({ activeView, onViewChange }) => {
 namespace S {
   export const ViewTabs = styled.div`
     display: flex;
-    background: #f8fafc;
-    border-bottom: 1px solid #e2e8f0;
+    background: #334155;
+    border-bottom: 1px solid #475569;
     padding: 0 24px;
   `;
 
@@ -33,21 +33,21 @@ namespace S {
     border: none;
     padding: 16px 24px;
     font-weight: 500;
-    color: #64748b;
+    color: #94a3b8;
     cursor: pointer;
     transition: all 0.2s ease;
     border-bottom: 3px solid transparent;
     font-size: 14px;
 
     &:hover {
-      color: #334155;
-      background: rgba(102, 126, 234, 0.05);
+      color: #e2e8f0;
+      background: rgba(129, 140, 248, 0.1);
     }
 
     &.active {
-      color: #667eea;
-      border-bottom-color: #667eea;
-      background: white;
+      color: #818cf8;
+      border-bottom-color: #818cf8;
+      background: #1e293b;
       font-weight: 600;
     }
   `;

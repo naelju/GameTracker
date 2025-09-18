@@ -34,7 +34,6 @@ export const GameRowItem = ({
     }
   }
 
-  
   return (
     <S.TableRow className={game.hundredPercent === true ? 'completed-100' : ''}>
       <S.TableCell className="game-name">{game.name}</S.TableCell>
@@ -116,9 +115,10 @@ export const GameRowItem = ({
 namespace S {
   export const TableCell = styled.td`
     padding: 10px 8px;
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid #475569;
     vertical-align: middle;
     text-align: center;
+    color: #e2e8f0;
 
     @media (max-width: 768px) {
       padding: 12px 8px;
@@ -126,7 +126,7 @@ namespace S {
 
     &.game-name {
       font-weight: 600;
-      color: #1f2937;
+      color: #f1f5f9;
       min-width: 150px;
       text-align: left !important;
       vertical-align: middle;
@@ -151,29 +151,29 @@ namespace S {
 
   export const TableRow = styled.tr`
     &:hover {
-      background: #f9fafb;
+      background: #334155;
     }
 
     &.completed-100 {
-      background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
-      box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+      box-shadow: 0 2px 8px rgba(251, 191, 36, 0.3);
 
       &:hover {
-        background: linear-gradient(135deg, #ffed4e 0%, #ffd700 100%);
-        box-shadow: 0 4px 12px rgba(255, 215, 0, 0.4);
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        box-shadow: 0 4px 12px rgba(251, 191, 36, 0.4);
       }
 
       td {
-        border-bottom-color: rgba(255, 215, 0, 0.3);
+        border-bottom-color: rgba(251, 191, 36, 0.3);
       }
 
       .game-name {
-        color: #8b4513;
+        color: #92400e;
       }
 
       .status-badge {
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-        border: 2px solid rgba(255, 255, 255, 0.8);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        border: 2px solid rgba(255, 255, 255, 0.9);
 
         &.computed {
           background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
@@ -212,13 +212,13 @@ namespace S {
   `;
 
   export const NoDate = styled.span`
-    color: #9ca3af;
+    color: #94a3b8;
     font-style: italic;
     font-size: 13px;
-    background: #f9fafb;
+    background: #334155;
     padding: 4px 8px;
     border-radius: 4px;
-    border: 1px solid #e5e7eb;
+    border: 1px solid #475569;
     display: inline-block;
   `;
 
@@ -241,7 +241,7 @@ namespace S {
       background: #2563eb;
       color: white;
       transform: translateY(-1px);
-      box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+      box-shadow: 0 4px 8px rgba(59, 130, 246, 0.4);
     }
 
     &:disabled {
@@ -269,7 +269,7 @@ namespace S {
       background: #dc2626;
       color: white;
       transform: translateY(-1px);
-      box-shadow: 0 4px 8px rgba(239, 68, 68, 0.3);
+      box-shadow: 0 4px 8px rgba(239, 68, 68, 0.4);
     }
 
     &:disabled {

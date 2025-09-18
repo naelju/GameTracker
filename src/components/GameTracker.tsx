@@ -201,17 +201,18 @@ export const GameTracker = () => {
 
 namespace S {
   export const GameTrackerContainer = styled.div`
-    background: white;
+    background: #1e293b;
     border-radius: 16px;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     min-height: 600px;
+    border: 1px solid #334155;
   `;
 
   export const ViewTabs = styled.div`
     display: flex;
-    background: #f8fafc;
-    border-bottom: 1px solid #e2e8f0;
+    background: #334155;
+    border-bottom: 1px solid #475569;
     padding: 0 24px;
     `;
 }
