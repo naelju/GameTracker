@@ -13,3 +13,5 @@ Add a different view than the table view (maybe an image based one kinda like st
 To deploy my changes:
 Just run npm run deploy, yo ucan verify that a push happened on gh-pages branch
 Idea: Use a workflow that would do that automatically on push
+
+To edit the data, only do it with the app built locally and replace the env key by the all powerfull key stored in .secret
