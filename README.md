@@ -8,4 +8,4 @@ Ideas to improve the app
 Better overall design/UI
 Add a game rating feature
 Add a favorite top-3 games or something
-Add a different view than the table view (maybe an image based one kinda like steam library)
+Add a different view than the table view (maybe an image based one kinda like steam library)# Deployment fix
