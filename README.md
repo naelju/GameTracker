@@ -1,19 +1,49 @@
-# GameTracker
-A simple project to track what games I've played, with additional feature coming along the way
+# 🎮 GameTracker
 
-To run the app:
+A simple and elegant project to track what games I've played, with additional features coming along the way.
+
+## 🚀 Quick Start
+
+To run the app locally:
+
+```bash
 pnpm run dev
+```
 
-Ideas to improve the app
-Better overall design/UI
-Add a game rating feature
-Add a favorite top-3 games or something
-Add a different view than the table view (maybe an image based one kinda like steam library)# Deployment fix
+## 🎯 Features
 
-To deploy my changes:
-Just run npm run deploy, yo ucan verify that a push happened on gh-pages branch
-Idea: Use a workflow that would do that automatically on push
+- Track your gaming progress
+- Clean and intuitive interface
+- Additional features in development
 
-To edit the data, only do it with the app built locally and replace the env key by the all powerfull key stored in .secret
+## 🛠️ Development
 
-test to change commit autho
+### Running the App
+```bash
+pnpm run dev
+```
+
+### Deployment
+To deploy changes:
+```bash
+npm run deploy
+```
+You can verify that a push happened on the `gh-pages` branch.
+
+**Future improvement**: Use a workflow that would do deployment automatically on push.
+
+## 🔧 Data Management
+
+To edit the data, only do it with the app built locally and replace the env key by the all-powerful key stored in `.secret`.
+
+## 💡 Ideas for Future Improvements
+
+- [ ] Better overall design/UI
+- [ ] Add a game rating feature
+- [ ] Add a favorite top-3 games feature
+- [ ] Add a different view than the table view (maybe an image-based one like Steam library)
+- [ ] Automated deployment workflow
+
+## 📝 Notes
+
+This project is actively maintained and improved. Feel free to contribute or suggest new features!
