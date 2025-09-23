@@ -12,9 +12,10 @@ pnpm run dev
 
 ## 🎯 Features
 
-- Track your gaming progress
-- Clean and intuitive interface
-- Additional features in development
+- 📊 **Track your gaming progress** - Keep track of games you've played
+- 🎨 **Clean and intuitive interface** - User-friendly design
+- 🔄 **Real-time updates** - Changes sync instantly
+- 🚀 **Additional features in development** - More functionality coming soon
 
 ## 🛠️ Development
 
@@ -28,13 +29,17 @@ To deploy changes:
 ```bash
 npm run deploy
 ```
+> **Note**: The build step runs automatically via the `predeploy` hook defined in `package.json`
+
 You can verify that a push happened on the `gh-pages` branch.
 
 **Future improvement**: Use a workflow that would do deployment automatically on push.
 
 ## 🔧 Data Management
 
-To edit the data, only do it with the app built locally and replace the env key by the all-powerful key stored in `.secret`.
+> ⚠️ **Important**: To edit the data, only do it with the app built locally and replace the env key by the all-powerful key stored in `.secret`.
+
+**Security Note**: The `.secret` file contains sensitive configuration and is excluded from version control.
 
 ## 💡 Ideas for Future Improvements
 
