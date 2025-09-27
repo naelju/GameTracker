@@ -1,7 +1,8 @@
-import React from 'react'
-import { Save, X } from 'lucide-react'
+import React, { useState, useEffect } from 'react'
+import { Save, X, Search } from 'lucide-react'
 import { styled } from 'styled-components'
 import { FormData } from '../models/game'
+import { getSupabaseClient } from '../lib/supabase'
 
 export type GameFormProps = {
   isAdding: boolean,
@@ -19,6 +20,76 @@ export const GameForm = ({
   onSave, 
   onCancel 
 }: GameFormProps) => {
+  const [searchQuery, setSearchQuery] = useState('')
+  const [searchResults, setSearchResults] = useState<any[]>([])
+  const [showSearchResults, setShowSearchResults] = useState(false)
+  const [isSearching, setIsSearching] = useState(false)
+  const [useCustomName, setUseCustomName] = useState(false)
+
+  // Search for existing games
+  const searchGames = async (query: string) => {
+    if (query.length < 2) {
+      setSearchResults([])
+      return
+    }
+
+    setIsSearching(true)
+    try {
+      const supabase = getSupabaseClient()
+      const { data, error } = await supabase
+        .from('game')
+        .select('id, name')
+        .ilike('name', `%${query}%`)
+        .limit(10)
+      
+      if (error) throw error
+      setSearchResults(data || [])
+    } catch (error) {
+      console.error('Error searching games:', error)
+      setSearchResults([])
+    } finally {
+      setIsSearching(false)
+    }
+  }
+
+  // Handle search input
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const query = e.target.value
+    setSearchQuery(query)
+    searchGames(query)
+    setShowSearchResults(true)
+  }
+
+  // Select a game from search results
+  const selectGame = (game: any) => {
+    onInputChange({
+      target: { name: 'name', value: game.name }
+    } as React.ChangeEvent<HTMLInputElement>)
+    setSearchQuery(game.name)
+    setShowSearchResults(false)
+    setUseCustomName(false)
+  }
+
+  // Toggle between search and custom input
+  const toggleInputMode = () => {
+    setUseCustomName(!useCustomName)
+    setShowSearchResults(false)
+    setSearchQuery('')
+  }
+
+  // Check if save button should be disabled
+  const isSaveDisabled = () => {
+    if (editingId) return false // Always allow saving when editing
+    
+    if (!useCustomName) {
+      // In search mode, check if a game is selected
+      return !formData.name || formData.name.trim() === ''
+    } else {
+      // In custom mode, check if name is provided
+      return !formData.name || formData.name.trim() === ''
+    }
+  }
+
   if (!isAdding && !editingId) return null
 
   return (
@@ -29,14 +100,82 @@ export const GameForm = ({
         <S.FormGrid>
           <S.FormGroup>
             <label>Game Name *</label>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={onInputChange}
-              placeholder="Enter game name"
-              required
-            />
+            {!editingId ? (
+              <S.GameNameContainer>
+                <S.ModeSelector>
+                  <S.ModeButton 
+                    active={!useCustomName} 
+                    onClick={() => setUseCustomName(false)}
+                  >
+                    Search Existing
+                  </S.ModeButton>
+                  <S.ModeButton 
+                    active={useCustomName} 
+                    onClick={() => setUseCustomName(true)}
+                  >
+                    Custom Name
+                  </S.ModeButton>
+                </S.ModeSelector>
+
+                {!useCustomName ? (
+                  // Search mode
+                  <S.SearchContainer>
+                    <S.SearchInput
+                      type="text"
+                      value={searchQuery}
+                      onChange={handleSearchChange}
+                      placeholder="Type to search for existing games..."
+                      onFocus={() => setShowSearchResults(true)}
+                    />
+                    <S.SearchIcon>
+                      <Search size={16} />
+                    </S.SearchIcon>
+                    {showSearchResults && (
+                      <S.SearchResults>
+                        {isSearching ? (
+                          <S.SearchItem>Searching...</S.SearchItem>
+                        ) : searchResults.length > 0 ? (
+                          searchResults.map((game) => (
+                            <S.SearchItem 
+                              key={game.id} 
+                              onClick={() => selectGame(game)}
+                            >
+                              {game.name}
+                            </S.SearchItem>
+                          ))
+                        ) : searchQuery.length >= 2 ? (
+                          <S.SearchItem>No games found</S.SearchItem>
+                        ) : null}
+                      </S.SearchResults>
+                    )}
+                  </S.SearchContainer>
+                ) : (
+                  // Custom input mode
+                  <S.CustomInput
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={onInputChange}
+                    placeholder="Enter new game name"
+                    required
+                  />
+                )}
+              </S.GameNameContainer>
+            ) : (
+              // Editing mode - just show the name
+              <S.CustomInput
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={onInputChange}
+                placeholder="Enter game name"
+                required
+                disabled={true}
+              />
+            )}
+            {editingId && (
+              <S.HelpText>Game name cannot be changed after creation</S.HelpText>
+            )}
           </S.FormGroup>
 
           <S.FormGroup>
@@ -153,7 +292,7 @@ export const GameForm = ({
         </S.FormGrid>
 
         <S.FormActions>
-          <S.SaveButton onClick={onSave}>
+          <S.SaveButton onClick={onSave} disabled={isSaveDisabled()}>
             <Save size={16} />
             {editingId ? 'Update' : 'Add'} Game
           </S.SaveButton>
@@ -274,10 +413,18 @@ namespace S {
     background: #10b981;
     color: white;
 
-    &:hover {
+    &:hover:not(:disabled) {
       background: #059669;
       transform: translateY(-1px);
       box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
+    }
+
+    &:disabled {
+      background: #6b7280;
+      cursor: not-allowed;
+      opacity: 0.6;
+      transform: none;
+      box-shadow: none;
     }
 
     @media (max-width: 480px) {
@@ -309,6 +456,133 @@ namespace S {
     @media (max-width: 480px) {
       width: 100%;
       justify-content: center;
+    }
+  `
+
+  export const HelpText = styled.div`
+    font-size: 12px;
+    color: #94a3b8;
+    margin-top: 4px;
+    font-style: italic;
+  `
+
+  export const GameNameContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  `
+
+  export const ModeSelector = styled.div`
+    display: flex;
+    gap: 4px;
+    background: #475569;
+    border-radius: 6px;
+    padding: 4px;
+  `
+
+  export const ModeButton = styled.button<{ active: boolean }>`
+    flex: 1;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: ${props => props.active ? '#3b82f6' : 'transparent'};
+    color: ${props => props.active ? 'white' : '#94a3b8'};
+
+    &:hover {
+      background: ${props => props.active ? '#2563eb' : '#64748b'};
+      color: white;
+    }
+  `
+
+  export const SearchContainer = styled.div`
+    position: relative;
+    width: 100%;
+  `
+
+  export const SearchInput = styled.input`
+    width: 100%;
+    padding: 12px 40px 12px 12px;
+    border: 1px solid #475569;
+    border-radius: 6px;
+    background: #334155;
+    color: #f1f5f9;
+    font-size: 14px;
+
+    &:focus {
+      outline: none;
+      border-color: #3b82f6;
+    }
+
+    &::placeholder {
+      color: #64748b;
+    }
+  `
+
+  export const SearchIcon = styled.div`
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #64748b;
+    pointer-events: none;
+  `
+
+  export const SearchResults = styled.div`
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #334155;
+    border: 1px solid #475569;
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 10;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  `
+
+  export const SearchItem = styled.div`
+    padding: 12px;
+    cursor: pointer;
+    color: #e2e8f0;
+    border-bottom: 1px solid #475569;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background: #475569;
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+  `
+
+  export const CustomInput = styled.input`
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #475569;
+    border-radius: 6px;
+    background: #334155;
+    color: #f1f5f9;
+    font-size: 14px;
+
+    &:focus {
+      outline: none;
+      border-color: #3b82f6;
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    &::placeholder {
+      color: #64748b;
     }
   `
 }

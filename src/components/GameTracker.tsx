@@ -8,7 +8,12 @@ import { ImageView } from './ImageView'
 import styled from 'styled-components'
 import { type Game, type GameData, ObjectiveStatusEnum, type FormData } from '../models/game'
 
-export const GameTracker = () => {
+interface GameTrackerProps {
+  userId: string
+  adminKey: string
+}
+
+export const GameTracker: React.FC<GameTrackerProps> = ({ userId, adminKey }) => {
   const [activeView, setActiveView] = useState('table')
   const [isAdding, setIsAdding] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
@@ -26,7 +31,7 @@ export const GameTracker = () => {
     allAchievementsComment: ''
   })
 
-  const { games, addGame, updateGame, deleteGame } = useGames()
+  const { games, addGame, updateGame, deleteGame } = useGames(userId, adminKey)
 
   const resetForm = () => {
     setFormData({

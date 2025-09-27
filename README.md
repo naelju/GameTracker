@@ -49,6 +49,21 @@ You can verify that a push happened on the `gh-pages` branch.
 - [ ] Add a different view than the table view (maybe an image-based one like Steam library)
 - [ ] Automated deployment workflow
 
+
+Security:
+- Rely on user not knowing the other userId to not mess with their data 
+- Rely on trusting users since I have to give them the admin key to properly use the
+
+
 ## 📝 Notes
 
 This project is actively maintained and improved. Feel free to contribute or suggest new features!
+
+Feature log:
+Added game ordered by name
+Added ordering by 100% asc and desc (and name desc sub-order)
+Updated DB architecture to be able to have multiple users
+Added a user_id prompt to show the games related to the user
+Added a DB key prompt where I can enter admin api key to be able to modify data
+With new architecture, adding a game entry has the option to find existing game or add one (by name)
+Usage: enter your user Id to see your games, enter admin key to add/edit/delete game entries
