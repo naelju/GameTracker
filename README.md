@@ -15,6 +15,10 @@ pnpm run dev
 - 📊 **Track your gaming progress** - Keep track of games you've played
 - 🎨 **Clean and intuitive interface** - User-friendly design
 - 🔄 **Real-time updates** - Changes sync instantly
+- 🔤 **Smart sorting** - Sort by name (default) or 100% completion status
+- 🔍 **Game search** - Find existing games or add new ones with intelligent search
+- 👥 **Multi-user support** - User isolation with User ID authentication
+- 🔑 **Admin access** - Elevated permissions for data management
 - 🚀 **Additional features in development** - More functionality coming soon
 
 ## 🛠️ Development
@@ -41,6 +45,12 @@ You can verify that a push happened on the `gh-pages` branch.
 
 **Security Note**: The `.secret` file contains sensitive configuration and is excluded from version control.
 
+### 🔐 Security Model
+- **User isolation** - Each user sees only their own games via User ID
+- **Admin access** - Enter admin key for elevated database permissions
+- **Data protection** - Users cannot access other users' data without knowing their User ID
+- **Trust-based system** - Admin key provides full database access for data management
+
 ## 💡 Ideas for Future Improvements
 
 - [ ] Better overall design/UI
@@ -49,21 +59,17 @@ You can verify that a push happened on the `gh-pages` branch.
 - [ ] Add a different view than the table view (maybe an image-based one like Steam library)
 - [ ] Automated deployment workflow
 
+## 📝 Recent Updates
 
-Security:
-- Rely on user not knowing the other userId to not mess with their data 
-- Rely on trusting users since I have to give them the admin key to properly use the
+### ✨ **Latest Features Added**
+- 🔤 **Smart sorting** - Games ordered by name (default) and 100% completion status
+- 📊 **Advanced sorting** - 100% asc/desc with name as secondary sort
+- 👥 **Multi-user architecture** - Updated DB structure to support multiple users
+- 🆔 **User ID authentication** - Simple prompt to show user-specific games
+- 🔑 **Admin key system** - Elevated database access for data management
+- 🔍 **Intelligent game creation** - Search existing games or add new ones by name
 
-
-## 📝 Notes
-
-This project is actively maintained and improved. Feel free to contribute or suggest new features!
-
-Feature log:
-Added game ordered by name
-Added ordering by 100% asc and desc (and name desc sub-order)
-Updated DB architecture to be able to have multiple users
-Added a user_id prompt to show the games related to the user
-Added a DB key prompt where I can enter admin api key to be able to modify data
-With new architecture, adding a game entry has the option to find existing game or add one (by name)
-Usage: enter your user Id to see your games, enter admin key to add/edit/delete game entries
+### 🎮 **Usage Instructions**
+- **Regular users**: Enter your User ID to see your games
+- **Administrators**: Enter User ID + Admin key to add/edit/delete game entries
+- **Game creation**: Choose between searching existing games or creating new entries
