@@ -73,3 +73,14 @@ You can verify that a push happened on the `gh-pages` branch.
 - **Regular users**: Enter your User ID to see your games
 - **Administrators**: Enter User ID + Admin key to add/edit/delete game entries
 - **Game creation**: Choose between searching existing games or creating new entries
+
+To QA for full regression:
+✅ Display table without any id
+✅ Display userGames when userId is set
+✅ Add the master key and add a new userGame with existing game 
+✅ Add the master key and add a new userGame with new game
+✅ Add the master key and edit a userGame
+Add the master key and delete a userGame
+
+Bugs:
+When deleting a game, the table display empty even tho the userId is still in the input

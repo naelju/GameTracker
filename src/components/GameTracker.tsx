@@ -90,13 +90,26 @@ export const GameTracker = ({ userId, adminKey }: GameTrackerProps) => {
     }
   }
 
-  const handleEdit = (game: Game) => {
-    setEditingId(game.id)
-    setFormData({...game})
+  const handleEdit = (userGameWithGame: UserGameWithGame) => {
+    setEditingId(userGameWithGame.gameId)
+    setFormData({
+      gameId: userGameWithGame.gameId,
+      gameName: userGameWithGame.game.name,
+      startDate: userGameWithGame.startDate,
+      finishDate: userGameWithGame.finishDate,
+      mainStory: userGameWithGame.mainStory,
+      mainStoryComment: userGameWithGame.mainStoryComment,
+      sideQuests: userGameWithGame.sideQuests,
+      sideQuestsComment: userGameWithGame.sideQuestsComment,
+      freeAchievements: userGameWithGame.freeAchievements,
+      freeAchievementsComment: userGameWithGame.freeAchievementsComment,
+      allAchievements: userGameWithGame.allAchievements,
+      allAchievementsComment: userGameWithGame.allAchievementsComment
+    } as FormData);
   }
 
   const handleUpdate = async () => {
-    if (!formData.name.trim()) return
+    if (!formData.gameName.trim()) return
 
     const hundredPercent = computeGame100Percent(
       formData.mainStory,
@@ -106,8 +119,18 @@ export const GameTracker = ({ userId, adminKey }: GameTrackerProps) => {
     )
 
     const updateData: GameData = {
-      ...formData,
-      hundredPercent
+      name: formData.gameName,
+      mainStory: formData.mainStory,
+      mainStoryComment: formData.mainStoryComment,
+      sideQuests: formData.sideQuests,
+      sideQuestsComment: formData.sideQuestsComment,
+      freeAchievements: formData.freeAchievements,
+      freeAchievementsComment: formData.freeAchievementsComment,
+      allAchievements: formData.allAchievements,
+      allAchievementsComment: formData.allAchievementsComment,
+      hundredPercent,
+      startDate: formData.startDate === '' ? null : formData.startDate,
+      finishDate: formData.finishDate === '' ? null : formData.finishDate
     }
 
     if (updateData.startDate === '') {
