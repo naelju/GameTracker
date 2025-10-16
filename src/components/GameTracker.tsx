@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useGames } from '../hooks/useGames'
 import { Controls } from './Controls'
 import { GameForm } from './GameForm'
 import { GameTable } from './GameTable'
 import styled from 'styled-components'
-import { type Game, type GameData, ObjectiveStatusEnum, type FormData, UserGameData, UserGame, UserGameWithGame } from '../models/game'
+import { type GameData, ObjectiveStatusEnum, type FormData, UserGameData, UserGame, UserGameWithGame } from '../models/game'
 
 export type GameTrackerProps = {
   userId: string | null
@@ -53,7 +53,7 @@ export const GameTracker = ({ userId, adminKey }: GameTrackerProps) => {
     return fields.every(field => field === ObjectiveStatusEnum.YES || field === ObjectiveStatusEnum.UNDEFINED) ? true : false
   }
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: { target: { name: any; value: any } }) => {
     const { name, value } = e.target
     setFormData(prev => ({
       ...prev,
@@ -170,7 +170,7 @@ export const GameTracker = ({ userId, adminKey }: GameTrackerProps) => {
     const userGame = userGames.find(g => g.userId === userGameWithGame.userId && g.gameId === userGameWithGame.gameId)
     if (!userGame) throw new Error('User game not found')
 
-    const currentStatus = userGame[field]
+    const currentStatus = userGame[field as keyof UserGameWithGame]
     const newStatus = currentStatus === ObjectiveStatusEnum.YES ? ObjectiveStatusEnum.NO : ObjectiveStatusEnum.YES;
     
     const updatedGame: UserGameWithGame = {
