@@ -1,9 +1,8 @@
-import React from 'react'
 import editIcon from '../assets/edit_icon.png'
 import deleteIcon from '../assets/trash_icon.png'
 import styled from 'styled-components'
 import { StatusBadge } from './StatusBadge';
-import { Game, UserGameWithGame } from '../models/game';
+import { UserGameWithGame } from '../models/game';
 
 export type GameRowItemProps = {
   userGameWithGame: UserGameWithGame,
