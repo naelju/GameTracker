@@ -80,7 +80,6 @@ To QA for full regression:
 ✅ Add the master key and add a new userGame with existing game 
 ✅ Add the master key and add a new userGame with new game
 ✅ Add the master key and edit a userGame
-Add the master key and delete a userGame
+✅ Add the master key and delete a userGame
 
 Bugs:
-When deleting a game, the table display empty even tho the userId is still in the input

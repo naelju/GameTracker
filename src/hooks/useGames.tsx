@@ -70,7 +70,9 @@ export const useGames = ( userId: string | null, adminKey: string) => {
     try {
       await deleteUserGame(userId, gameId);
       
-      setUserGames(prev => prev.filter(userGame => userGame.userId !== userId && userGame.gameId !== gameId))
+      setUserGames(prev => prev.filter(userGame => 
+        userGame.userId !== userId || userGame.gameId !== gameId
+      ))
     } catch (error) {
       console.error('Error deleting game:', error)
       throw error
