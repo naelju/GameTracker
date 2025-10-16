@@ -105,7 +105,7 @@ export const GameTracker = ({ userId, adminKey }: GameTrackerProps) => {
       freeAchievementsComment: userGameWithGame.freeAchievementsComment,
       allAchievements: userGameWithGame.allAchievements,
       allAchievementsComment: userGameWithGame.allAchievementsComment
-    } as FormData);
+    });
   }
 
   const handleUpdate = async () => {
