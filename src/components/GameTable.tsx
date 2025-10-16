@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react'
-import { Game } from '../models/game'
+import { Game, UserGameWithGame } from '../models/game'
 import { GameRowItem } from './GameRowItem'
 import styled from 'styled-components'
 import { ChevronUp, ChevronDown, ChevronsUpDown } from 'lucide-react'
@@ -8,14 +8,14 @@ export type SortField = 'hundredPercent'
 export type SortDirection = 'asc' | 'desc' | null
 
 export type GameTableProps = {
-  games: Game[],
-  onEdit: (game: Game) => void,
+  userGamesWithGame: UserGameWithGame[],
+  onEdit: (userGameWithGame: UserGameWithGame) => void,
   onDelete: (gameId: string) => void,
-  onStatusToggle: (gameId: string, field: string) => void,
+  onStatusToggle: (userGameWithGame: UserGameWithGame, field: string) => void,
 }
 
 export const GameTable = ({ 
-  games, 
+  userGamesWithGame, 
   onEdit, 
   onDelete, 
   onStatusToggle,
@@ -43,10 +43,10 @@ export const GameTable = ({
   const sortedGames = useMemo(() => {
     if (!sortDirection || !sortField) {
       // Default sort by name (always ascending)
-      return [...games].sort((a, b) => a.name.localeCompare(b.name))
+      return [...userGamesWithGame].sort((a, b) => a.game.name.localeCompare(b.game.name))
     }
 
-    return [...games].sort((a, b) => {
+    return [...userGamesWithGame].sort((a, b) => {
       let comparison = 0
 
       switch (sortField) {
@@ -58,13 +58,13 @@ export const GameTable = ({
 
       // If values are equal, sort by name as secondary sort (always ascending)
       if (comparison === 0) {
-        comparison = a.name.localeCompare(b.name)
+        comparison = a.game.name.localeCompare(b.game.name)
         return comparison // Always return name comparison in ascending order
       }
 
       return sortDirection === 'desc' ? -comparison : comparison
     })
-  }, [games, sortField, sortDirection])
+  }, [userGamesWithGame, sortField, sortDirection])
 
   const getSortIcon = (field: SortField) => {
     if (sortField !== field) {
@@ -106,17 +106,17 @@ export const GameTable = ({
           </tr>
         </thead>
         <tbody>
-          {games.length === 0 ? (
+          {userGamesWithGame.length === 0 ? (
             <tr>
               <S.EmptyState colSpan={9}>
                 No games added yet. Click "Add Game" to get started!
               </S.EmptyState>
             </tr>
           ) : (
-            sortedGames.map(game => (
+            sortedGames.map(userGameWithGame => (
               <GameRowItem
-                key={game.id}
-                game={game}
+                key={userGameWithGame.gameId}
+                userGameWithGame={userGameWithGame}
                 onEdit={onEdit}
                 onDelete={onDelete}
                 onStatusToggle={onStatusToggle}

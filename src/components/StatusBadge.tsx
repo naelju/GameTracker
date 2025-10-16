@@ -1,16 +1,16 @@
 import React from 'react';
 import { styled } from "styled-components";
-import { ObjectiveStatusEnum } from '../models/game';
+import { ObjectiveStatusEnum, UserGameWithGame } from '../models/game';
 
 export type StatusBadgeProps = {
-    gameId: string;
+    userGameWithGame: UserGameWithGame;
     propertyName: string;
     propertyStatus: ObjectiveStatusEnum;
     propertyComment?: string;
-    onStatusToggle: (gameId: string, propertyName: string) => void;
+    onStatusToggle: (userGameWithGame: UserGameWithGame, propertyName: string) => void;
 }
 
-export const StatusBadge = ({ gameId, propertyName, propertyStatus, propertyComment, onStatusToggle }: StatusBadgeProps ) => {
+export const StatusBadge = ({ userGameWithGame, propertyName, propertyStatus, propertyComment, onStatusToggle }: StatusBadgeProps ) => {
   const getStatusColor = (status: ObjectiveStatusEnum) => {
       switch (status) {
           case ObjectiveStatusEnum.YES: return '#10b981';
@@ -33,7 +33,7 @@ export const StatusBadge = ({ gameId, propertyName, propertyStatus, propertyComm
     className={propertyStatus !== ObjectiveStatusEnum.UNDEFINED ? 'clickable' : ''}
     style={{ backgroundColor: getStatusColor(propertyStatus) }}
     title={propertyStatus === ObjectiveStatusEnum.UNDEFINED ? (propertyComment ? propertyComment : 'No comment') : undefined}
-    onClick={() => propertyStatus !== ObjectiveStatusEnum.UNDEFINED && onStatusToggle(gameId, propertyName)}
+    onClick={() => propertyStatus !== ObjectiveStatusEnum.UNDEFINED && onStatusToggle(userGameWithGame, propertyName)}
   >
     {/* TODO: replace by an image or something better instead of text */}
     {getStatusIcon(propertyStatus as ObjectiveStatusEnum)}

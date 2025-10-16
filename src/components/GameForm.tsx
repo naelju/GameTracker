@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Save, X, Search } from 'lucide-react'
 import { styled } from 'styled-components'
-import { FormData } from '../models/game'
+import { FormData, Game } from '../models/game'
 import { getSupabaseClient } from '../lib/supabase'
 
 export type GameFormProps = {
@@ -61,9 +61,12 @@ export const GameForm = ({
   }
 
   // Select a game from search results
-  const selectGame = (game: any) => {
+  const selectGame = (game: Game) => {
     onInputChange({
-      target: { name: 'name', value: game.name }
+      target: { name: 'gameName', value: game.name },
+    } as React.ChangeEvent<HTMLInputElement>)
+    onInputChange({
+      target: { name: 'gameId', value: game.id },
     } as React.ChangeEvent<HTMLInputElement>)
     setSearchQuery(game.name)
     setShowSearchResults(false)
@@ -83,10 +86,10 @@ export const GameForm = ({
     
     if (!useCustomName) {
       // In search mode, check if a game is selected
-      return !formData.name || formData.name.trim() === ''
+      return !formData.gameName || formData.gameName.trim() === ''
     } else {
       // In custom mode, check if name is provided
-      return !formData.name || formData.name.trim() === ''
+      return !formData.gameName || formData.gameName.trim() === ''
     }
   }
 
@@ -153,8 +156,8 @@ export const GameForm = ({
                   // Custom input mode
                   <S.CustomInput
                     type="text"
-                    name="name"
-                    value={formData.name}
+                    name="gameName"
+                    value={formData.gameName}
                     onChange={onInputChange}
                     placeholder="Enter new game name"
                     required
@@ -165,8 +168,8 @@ export const GameForm = ({
               // Editing mode - just show the name
               <S.CustomInput
                 type="text"
-                name="name"
-                value={formData.name}
+                name="gameName"
+                value={formData.gameName}
                 onChange={onInputChange}
                 placeholder="Enter game name"
                 required

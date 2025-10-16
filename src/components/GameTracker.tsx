@@ -1,24 +1,22 @@
 import React, { useState } from 'react'
 import { useGames } from '../hooks/useGames'
-import { ViewTabs } from './ViewTabs'
 import { Controls } from './Controls'
 import { GameForm } from './GameForm'
 import { GameTable } from './GameTable'
-import { ImageView } from './ImageView'
 import styled from 'styled-components'
-import { type Game, type GameData, ObjectiveStatusEnum, type FormData } from '../models/game'
+import { type Game, type GameData, ObjectiveStatusEnum, type FormData, UserGameData, UserGame, UserGameWithGame } from '../models/game'
 
-interface GameTrackerProps {
-  userId: string
+export type GameTrackerProps = {
+  userId: string | null
   adminKey: string
 }
 
-export const GameTracker: React.FC<GameTrackerProps> = ({ userId, adminKey }) => {
-  const [activeView, setActiveView] = useState('table')
+export const GameTracker = ({ userId, adminKey }: GameTrackerProps) => {
   const [isAdding, setIsAdding] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [formData, setFormData] = useState<FormData>({
-    name: '',
+    gameId: null,
+    gameName: '',
     startDate: null,
     finishDate: null,
     mainStory: ObjectiveStatusEnum.NO,
@@ -31,11 +29,12 @@ export const GameTracker: React.FC<GameTrackerProps> = ({ userId, adminKey }) =>
     allAchievementsComment: ''
   })
 
-  const { games, addGame, updateGame, deleteGame } = useGames(userId, adminKey)
+  const { userGames, addUserGame, updateAndReoadUserGame, deleteAndReloadUserGame } = useGames(userId, adminKey)
 
   const resetForm = () => {
     setFormData({
-      name: '',
+      gameId: null,
+      gameName: '',
       startDate: null,
       finishDate: null,
       mainStory: ObjectiveStatusEnum.NO,
@@ -63,8 +62,6 @@ export const GameTracker: React.FC<GameTrackerProps> = ({ userId, adminKey }) =>
   }
 
   const handleAdd = async () => {
-    if (!formData.name.trim()) return
-
     const hundredPercent = computeGame100Percent(
       formData.mainStory,
       formData.sideQuests,
@@ -85,7 +82,7 @@ export const GameTracker: React.FC<GameTrackerProps> = ({ userId, adminKey }) =>
     }
 
     try {
-      await addGame(newGameData as Game)
+      await addUserGame(newGameData as UserGameData)
       resetForm()
       setIsAdding(false)
     } catch (error) {
@@ -122,7 +119,7 @@ export const GameTracker: React.FC<GameTrackerProps> = ({ userId, adminKey }) =>
 
     try {
       if (!editingId) return
-      await updateGame(editingId, updateData)
+      await updateAndReoadUserGame({...updateData, userId: userId, gameId: editingId} as UserGame)
       resetForm()
       setEditingId(null)
     } catch (error) {
@@ -133,7 +130,7 @@ export const GameTracker: React.FC<GameTrackerProps> = ({ userId, adminKey }) =>
   const handleDelete = async (id: string) => {
     if (window.confirm('Are you sure you want to delete this game?')) {
       try {
-        await deleteGame(id)
+        await deleteAndReloadUserGame(id)
       } catch (error) {
         console.error('Error deleting game:', error)
       }
@@ -146,15 +143,15 @@ export const GameTracker: React.FC<GameTrackerProps> = ({ userId, adminKey }) =>
     setEditingId(null)
   }
 
-  const handleStatusToggle = async (gameId: string, field: string) => {
-    const game = games.find(g => g.id === gameId)
-    if (!game) return
+  const handleStatusToggle = async (userGameWithGame: UserGameWithGame, field: string) => {
+    const userGame = userGames.find(g => g.userId === userGameWithGame.userId && g.gameId === userGameWithGame.gameId)
+    if (!userGame) throw new Error('User game not found')
 
-    const currentStatus = game[field]
+    const currentStatus = userGame[field]
     const newStatus = currentStatus === ObjectiveStatusEnum.YES ? ObjectiveStatusEnum.NO : ObjectiveStatusEnum.YES;
     
-    const updatedGame = {
-      ...game,
+    const updatedGame: UserGameWithGame = {
+      ...userGame,
       [field]: newStatus
     }
 
@@ -166,19 +163,14 @@ export const GameTracker: React.FC<GameTrackerProps> = ({ userId, adminKey }) =>
     )
 
     try {
-      await updateGame(gameId, updatedGame)
+      await updateAndReoadUserGame(updatedGame)
     } catch (error) {
       console.error('Error updating game status:', error)
     }
   }
 
-
   return (
     <S.GameTrackerContainer>
-      <ViewTabs 
-        activeView={activeView} 
-        onViewChange={setActiveView} 
-      />
       <Controls 
         onAddGame={() => setIsAdding(true)}
       />
@@ -190,16 +182,12 @@ export const GameTracker: React.FC<GameTrackerProps> = ({ userId, adminKey }) =>
         onSave={editingId ? handleUpdate : handleAdd}
         onCancel={handleCancel}
       />
-      {activeView === 'table' && (
-        <GameTable
-          games={games}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
-          onStatusToggle={handleStatusToggle}
-        />
-      )}
-
-      {activeView === 'images' && <ImageView />}
+      <GameTable
+        userGamesWithGame={userGames}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+        onStatusToggle={handleStatusToggle}
+      />
     </S.GameTrackerContainer>
   )
 }
@@ -213,12 +201,5 @@ namespace S {
     min-height: 600px;
     border: 1px solid #334155;
   `;
-
-  export const ViewTabs = styled.div`
-    display: flex;
-    background: #334155;
-    border-bottom: 1px solid #475569;
-    padding: 0 24px;
-    `;
 }
 

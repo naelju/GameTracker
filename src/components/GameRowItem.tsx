@@ -3,17 +3,17 @@ import editIcon from '../assets/edit_icon.png'
 import deleteIcon from '../assets/trash_icon.png'
 import styled from 'styled-components'
 import { StatusBadge } from './StatusBadge';
-import { Game } from '../models/game';
+import { Game, UserGameWithGame } from '../models/game';
 
 export type GameRowItemProps = {
-  game: Game,
-  onEdit: (game: Game) => void,
+  userGameWithGame: UserGameWithGame,
+  onEdit: (userGameWithGame: UserGameWithGame) => void,
   onDelete: (gameId: string) => void,
-  onStatusToggle: (gameId: string, field: string) => void,
+  onStatusToggle: (userGameWithGame: UserGameWithGame, field: string) => void,
 }
 
 export const GameRowItem = ({ 
-  game, 
+  userGameWithGame, 
   onEdit, 
   onDelete, 
   onStatusToggle, 
@@ -35,75 +35,75 @@ export const GameRowItem = ({
   }
 
   return (
-    <S.TableRow className={game.hundredPercent === true ? 'completed-100' : ''}>
-      <S.TableCell className="game-name">{game.name}</S.TableCell>
+    <S.TableRow className={userGameWithGame.hundredPercent === true ? 'completed-100' : ''}>
+      <S.TableCell className="game-name">{userGameWithGame.game.name}</S.TableCell>
       <S.TableCell>
         <StatusBadge 
-          gameId={game.id || ''}
+          userGameWithGame={userGameWithGame}
           propertyName="mainStory"
-          propertyStatus={game.mainStory}
-          propertyComment={game.mainStoryComment}
+          propertyStatus={userGameWithGame.mainStory}
+          propertyComment={userGameWithGame.mainStoryComment}
           onStatusToggle={onStatusToggle}
         />
       </S.TableCell>
       <S.TableCell>
         <StatusBadge 
-          gameId={game.id || ''}
+          userGameWithGame={userGameWithGame}
           propertyName="sideQuests"
-          propertyStatus={game.sideQuests}
-          propertyComment={game.sideQuestsComment}
+          propertyStatus={userGameWithGame.sideQuests}
+          propertyComment={userGameWithGame.sideQuestsComment}
           onStatusToggle={onStatusToggle}
         />
       </S.TableCell>
       <S.TableCell>
         <StatusBadge 
-          gameId={game.id || ''}
+          userGameWithGame={userGameWithGame}
           propertyName="freeAchievements"
-          propertyStatus={game.freeAchievements}
-          propertyComment={game.freeAchievementsComment}
+          propertyStatus={userGameWithGame.freeAchievements}
+          propertyComment={userGameWithGame.freeAchievementsComment}
           onStatusToggle={onStatusToggle}
         />
       </S.TableCell>
       <S.TableCell>
       < StatusBadge 
-          gameId={game.id || ''}
+          userGameWithGame={userGameWithGame}
           propertyName="allAchievements"
-          propertyStatus={game.allAchievements}
-          propertyComment={game.allAchievementsComment}
+          propertyStatus={userGameWithGame.allAchievements}
+          propertyComment={userGameWithGame.allAchievementsComment}
           onStatusToggle={onStatusToggle}
         />
       </S.TableCell>
       <S.TableCell className="completion-column">
         <S.StatusBadge 
           className="computed"
-          style={{ backgroundColor: getStatusColor(game.hundredPercent) }}
-          title={`Computed: ${game.hundredPercent} (based on other fields)`}
+          style={{ backgroundColor: getStatusColor(userGameWithGame.hundredPercent) }}
+          title={`Computed: ${userGameWithGame.hundredPercent} (based on other fields)`}
         >
-          {getStatusIcon(game.hundredPercent)}
+          {getStatusIcon(userGameWithGame.hundredPercent)}
         </S.StatusBadge>
       </S.TableCell>
       <S.TableCell>
-        {game.startDate ? (
-          game.startDate
+        {userGameWithGame.startDate ? (
+          userGameWithGame.startDate
         ) : (
           <S.NoDate>Not set</S.NoDate>
         )}
       </S.TableCell>
       <S.TableCell>
-        {game.finishDate ? (
-          game.finishDate
+        {userGameWithGame.finishDate ? (
+          userGameWithGame.finishDate
         ) : (
           <S.NoDate>Not set</S.NoDate>
         )}
       </S.TableCell>
       <S.TableCell className="actions">
         <S.EditButton 
-          onClick={() => onEdit(game)}
+          onClick={() => onEdit(userGameWithGame)}
         >
           <img src={editIcon} alt="Edit" width="16" height="16" />
         </S.EditButton>
         <S.DeleteButton 
-          onClick={() => onDelete(game.id)}
+          onClick={() => onDelete(userGameWithGame.gameId)}
         >
           <img src={deleteIcon} alt="Delete" width="16" height="16" />
         </S.DeleteButton>
